@@ -23,14 +23,23 @@ module "vpc_network" {
   vpc_name     = var.vpc_name
 }
 
-module "google_compute_subnetwork" {
-  source = "./modules/VPC-Subnetwork"
 
-  project_id          = var.project_name
-  vpc_id              = module.vpc_network.vpc_id
-  vpc_name            = var.vpc_name
-  vpc_subnetwork_name = var.vpc_subnetwork_name
-  environment         = var.environment
-  ip_cidr_range       = var.ip_cidr_range
-  region              = var.region
+module "cloud-nat" {
+  source = "./modules/Cloud-NAT"
+
+  project_name = var.project_name
+  region       = var.region
+  vpc_name     = module.vpc_network.vpc_id
+  environment  = var.environment
 }
+# module "google_compute_subnetwork" {
+#   source = "./modules/VPC-Subnetwork"
+
+#   project_id          = var.project_name
+#   vpc_id              = module.vpc_network.vpc_id
+#   vpc_name            = var.vpc_name
+#   vpc_subnetwork_name = var.vpc_subnetwork_name
+#   environment         = var.environment
+#   ip_cidr_range       = var.ip_cidr_range
+#   region              = var.region
+# }

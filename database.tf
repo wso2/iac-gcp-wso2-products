@@ -26,6 +26,14 @@ resource "google_sql_database_instance" "rds_instance" {
       ipv4_enabled    = var.db_ipv4_enabled
       private_network = module.vpc_network.vpc_id
       require_ssl     = var.require_ssl
+
+      dynamic "authorized_networks" {
+        for_each = var.db_ipv4_enabled ? [1] : []
+        content {
+          name  = "internet"
+          value = "0.0.0.0/0"
+        }
+      }
     }
 
     insights_config {
@@ -46,6 +54,8 @@ resource "google_sql_database" "database" {
 }
 
 # Database VPC/subnet configurations
+# https://cloud.google.com/sql/docs/mysql/configure-private-services-access
+
 resource "google_compute_global_address" "rds_private_ip" {
   name          = "rds-private-ip"
   purpose       = "VPC_PEERING"
@@ -58,11 +68,4 @@ resource "google_service_networking_connection" "rds_network_connection" {
   network                 = module.vpc_network.vpc_id
   service                 = "servicenetworking.googleapis.com"
   reserved_peering_ranges = [google_compute_global_address.rds_private_ip.name]
-}
-
-resource "google_compute_network_peering_routes_config" "rds_peering_config" {
-  peering              = google_service_networking_connection.rds_network_connection.peering
-  network              = module.vpc_network.vpc_id
-  import_custom_routes = true
-  export_custom_routes = true
 }

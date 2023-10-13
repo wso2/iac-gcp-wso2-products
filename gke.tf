@@ -15,7 +15,7 @@ module "gke-cluster" {
   project_name                          = var.project_name
   vpc_id                                = module.vpc_network.vpc_id
   environment                           = var.environment
-  cluster_location                      = var.region
+  cluster_location                      = var.cluster_location
   cluster_subnetwork_primary_cidr       = var.cluster_ip_cidr_range
   cluster_secondary_pods_cidr_range     = var.cluster_secondary_pods_cidr_range
   cluster_secondary_services_cidr_range = var.cluster_secondary_services_cidr_range

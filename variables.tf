@@ -52,6 +52,11 @@ variable "ip_cidr_range" {
   type        = string
 }
 
+variable "cluster_location" {
+  description = "Cluster location"
+  type        = string
+}
+
 variable "cluster_ip_cidr_range" {
   description = "Cluster IP CIDR range"
   type        = string
@@ -173,6 +178,16 @@ variable "db_private_network" {
   type        = string
 }
 
+variable "db_subnetwork_name" {
+  description = "DB subnetwork name"
+  type        = string
+}
+
+variable "db_cidr_range" {
+  description = "DB CIDR range"
+  type        = string
+}
+
 variable "require_ssl" {
   description = "Require SSL for DB connections"
   type        = bool
@@ -197,4 +212,20 @@ variable "db_password" {
 variable "db_name" {
   description = "DB name"
   type        = string
+}
+
+variable "bastion_ip_cidr_range" {
+  description = "Base IP CIDR range for the bastion subnet"
+  type        = string
+}
+
+variable "bastion_vm_machine_type" {
+  description = "Bastion VM machine type"
+  type        = string
+}
+
+variable "bastion_vm_boot_disk_image" {
+  description = "Bastion VM boot disk image"
+  type        = string
+  default     = "ubuntu-2204-lts"
 }

@@ -9,16 +9,22 @@
 #
 # --------------------------------------------------------------------------------------
 
-module "bastion_instance" {
-  source = "./modules/Bastion-VM"
+output "bastion_instance" {
+  value      = module.bastion_instance.bastion_instance_id
+  depends_on = [module.bastion_instance]
+}
 
-  project_name            = var.project_name
-  zone                    = var.zone
-  location                = var.region
-  environment             = var.environment
-  vpc_name                = module.vpc_network.vpc_id
-  bastion_ip_cidr_range   = var.bastion_ip_cidr_range
-  bastion_vm_machine_type = var.bastion_vm_machine_type
-  boot_disk_image         = var.bastion_vm_boot_disk_image
-  startup_script          = var.bastion_startup_script
+output "database_internal_ip" {
+  value      = module.sql_instance.database_internal_ip
+  depends_on = [module.sql_instance]
+}
+
+output "database_connection_name" {
+  value      = module.sql_instance.database_connection_name
+  depends_on = [module.sql_instance]
+}
+
+output "database_default_user" {
+  value      = module.sql_instance.database_default_user
+  depends_on = [module.sql_instance]
 }

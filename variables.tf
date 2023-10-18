@@ -134,7 +134,7 @@ variable "database_version" {
   type        = string
 }
 
-variable "deletion_protection" {
+variable "db_deletion_protection" {
   default     = true
   description = "Deletion protection. If false, database will be deleted with terraform destroy"
   type        = bool
@@ -145,7 +145,7 @@ variable "database_tier" {
   type        = string
 }
 
-variable "common_labels" {
+variable "db_common_labels" {
   default = {
     "user" = "apim"
   }
@@ -153,17 +153,17 @@ variable "common_labels" {
   type        = map(string)
 }
 
-variable "availability_type" {
+variable "db_availability_type" {
   description = "Availability type"
   type        = string
 }
 
-variable "disk_size" {
+variable "db_disk_size" {
   description = "Disk size"
   type        = number
 }
 
-variable "disk_type" {
+variable "db_disk_type" {
   description = "Disk type"
   type        = string
 }
@@ -173,27 +173,17 @@ variable "db_ipv4_enabled" {
   type        = bool
 }
 
-variable "db_private_network" {
-  description = "DB private network"
-  type        = string
-}
-
-variable "db_subnetwork_name" {
-  description = "DB subnetwork name"
-  type        = string
-}
-
 variable "db_cidr_range" {
   description = "DB CIDR range"
   type        = string
 }
 
-variable "require_ssl" {
+variable "db_require_ssl" {
   description = "Require SSL for DB connections"
   type        = bool
 }
 
-variable "query_insights_enabled" {
+variable "db_query_insights_enabled" {
   description = "Query insights enabled"
   type        = bool
 }
@@ -214,6 +204,21 @@ variable "db_name" {
   type        = string
 }
 
+variable "db_backup_enabled" {
+  description = "DB backup enabled"
+  type        = bool
+}
+
+variable "db_binary_log_enabled" {
+  description = "Binary logs enabled for DB. This should be true only for MySQL Regional (not Zonal) deployments"
+  type        = bool
+}
+
+variable "db_retained_backups" {
+  description = "DB retained backups"
+  type        = number
+}
+
 variable "bastion_ip_cidr_range" {
   description = "Base IP CIDR range for the bastion subnet"
   type        = string
@@ -228,4 +233,132 @@ variable "bastion_vm_boot_disk_image" {
   description = "Bastion VM boot disk image"
   type        = string
   default     = "ubuntu-2204-lts"
+}
+
+variable "bastion_startup_script" {
+  description = "Bastion VM startup script"
+  type        = string
+}
+
+variable "alert_email_address" {
+  description = "Alert email address"
+  type        = string
+}
+
+variable "alert_channel_name" {
+  description = "Channel name for alert notifications"
+  type        = string
+  default     = "primary"
+}
+
+
+# Alert policy variables
+# Container CPU alerts
+variable "container_cpu_alert_name" {
+  description = "Container CPU alert name"
+  type        = string
+}
+
+variable "container_cpu_alert_duration" {
+  description = "Container CPU alert duration"
+  type        = string
+}
+
+variable "container_cpu_alert_threshold_value" {
+  description = "Container CPU alert threshold value"
+  type        = number
+}
+
+variable "container_cpu_alert_renotify_interval" {
+  description = "Container CPU alert renotify interval"
+  type        = string
+}
+
+# Container memory alerts
+variable "container_memory_alert_name" {
+  description = "Container memory alert name"
+  type        = string
+}
+
+variable "container_memory_alert_duration" {
+  description = "Container memory alert duration"
+  type        = string
+}
+
+variable "container_memory_alert_threshold_value" {
+  description = "Container memory alert threshold value"
+  type        = number
+}
+
+variable "container_memory_alert_renotify_interval" {
+  description = "Container memory alert renotify interval"
+  type        = string
+}
+
+# Container restart alerts
+variable "container_restart_alert_name" {
+  description = "Container restart alert name"
+  type        = string
+}
+
+variable "container_restart_alert_duration" {
+  description = "Container restart alert duration"
+  type        = string
+}
+
+variable "container_restart_alert_threshold_value" {
+  description = "Container restart alert threshold value"
+  type        = number
+}
+
+variable "container_restart_alert_renotify_interval" {
+  description = "Container restart alert renotify interval"
+  type        = string
+}
+
+variable "container_restart_alert_alignment_period" {
+  description = "Container restart alert alignment period"
+  type        = string
+}
+
+# Node CPU alerts
+variable "node_cpu_alert_name" {
+  description = "Node CPU alert name"
+  type        = string
+}
+
+variable "node_cpu_alert_duration" {
+  description = "Node CPU alert duration"
+  type        = string
+}
+
+variable "node_cpu_alert_threshold_value" {
+  description = "Node CPU alert threshold value"
+  type        = number
+}
+
+variable "node_cpu_alert_renotify_interval" {
+  description = "Node CPU alert renotify interval"
+  type        = string
+}
+
+# Node memory alerts
+variable "node_memory_alert_name" {
+  description = "Node memory alert name"
+  type        = string
+}
+
+variable "node_memory_alert_duration" {
+  description = "Node memory alert duration"
+  type        = string
+}
+
+variable "node_memory_alert_threshold_value" {
+  description = "Node memory alert threshold value"
+  type        = number
+}
+
+variable "node_memory_alert_renotify_interval" {
+  description = "Node memory alert renotify interval"
+  type        = string
 }

@@ -9,63 +9,28 @@
 #
 # --------------------------------------------------------------------------------------
 
-resource "google_sql_database_instance" "rds_instance" {
-  depends_on          = [google_service_networking_connection.rds_network_connection]
-  name                = join("-", ["rds", var.project_name, var.environment, var.region])
-  database_version    = var.database_version
-  deletion_protection = var.deletion_protection
+module "sql_instance" {
+  source = "./new-modules/SQL-Instance"
 
-  settings {
-    tier              = var.database_tier
-    user_labels       = var.common_labels
-    availability_type = var.availability_type
-    disk_size         = var.disk_size
-    disk_type         = var.disk_type
-
-    ip_configuration {
-      ipv4_enabled    = var.db_ipv4_enabled
-      private_network = module.vpc_network.vpc_id
-      require_ssl     = var.require_ssl
-
-      dynamic "authorized_networks" {
-        for_each = var.db_ipv4_enabled ? [1] : []
-        content {
-          name  = "internet"
-          value = "0.0.0.0/0"
-        }
-      }
-    }
-
-    insights_config {
-      query_insights_enabled = var.query_insights_enabled
-    }
-  }
-}
-
-resource "google_sql_user" "rds_user" {
-  name     = var.db_username
-  instance = google_sql_database_instance.rds_instance.name
-  password = var.db_password
-}
-
-resource "google_sql_database" "database" {
-  name     = var.db_name
-  instance = google_sql_database_instance.rds_instance.name
-}
-
-# Database VPC/subnet configurations
-# https://cloud.google.com/sql/docs/mysql/configure-private-services-access
-
-resource "google_compute_global_address" "rds_private_ip" {
-  name          = "rds-private-ip"
-  purpose       = "VPC_PEERING"
-  address_type  = "INTERNAL"
-  prefix_length = 16
-  network       = module.vpc_network.vpc_id
-}
-
-resource "google_service_networking_connection" "rds_network_connection" {
-  network                 = module.vpc_network.vpc_id
-  service                 = "servicenetworking.googleapis.com"
-  reserved_peering_ranges = [google_compute_global_address.rds_private_ip.name]
+  project_name           = var.project_name
+  region                 = var.region
+  environment            = var.environment
+  vpc_network            = module.vpc_network.vpc_id
+  database_version       = var.database_version
+  database_tier          = var.database_tier
+  deletion_protection    = var.db_deletion_protection
+  common_labels          = var.db_common_labels
+  availability_type      = var.db_availability_type
+  disk_size              = var.db_disk_size
+  disk_type              = var.db_disk_type
+  db_ipv4_enabled        = var.db_ipv4_enabled
+  db_cidr_range          = var.db_cidr_range
+  require_ssl            = var.db_require_ssl
+  query_insights_enabled = var.db_query_insights_enabled
+  db_username            = var.db_username
+  db_password            = var.db_password
+  db_name                = var.db_name
+  db_backup_enabled      = var.db_backup_enabled
+  db_binary_log_enabled  = var.db_binary_log_enabled
+  db_retained_backups    = var.db_retained_backups
 }

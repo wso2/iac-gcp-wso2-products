@@ -23,7 +23,6 @@ module "vpc_network" {
   vpc_name     = var.vpc_name
 }
 
-
 module "cloud-nat" {
   source = "./modules/Cloud-NAT"
 
@@ -32,6 +31,7 @@ module "cloud-nat" {
   vpc_name     = module.vpc_network.vpc_id
   environment  = var.environment
 }
+
 # module "google_compute_subnetwork" {
 #   source = "./modules/VPC-Subnetwork"
 

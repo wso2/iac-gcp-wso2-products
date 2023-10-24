@@ -9,25 +9,7 @@
 #
 # --------------------------------------------------------------------------------------
 
-terraform {
-  required_providers {
-    google = {
-      source  = "hashicorp/google"
-      version = "~> 4.25"
-    }
-  }
-
-  # Uncomment this in the actualt deployment
-  # backend "gcs" {
-  #   bucket  = "<bucket-name>"
-  #   prefix  = "terraform/state"
-  # }
-
-  required_version = ">= 1.3.0"
-}
-
-provider "google" {
-  project = var.project_name
-  region  = var.region
-  zone    = var.zone
+output "bucket_name" {
+  value      = google_storage_bucket.storage_bucket.name
+  depends_on = [google_storage_bucket.storage_bucket]
 }

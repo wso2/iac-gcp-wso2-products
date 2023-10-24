@@ -9,25 +9,15 @@
 #
 # --------------------------------------------------------------------------------------
 
-terraform {
-  required_providers {
-    google = {
-      source  = "hashicorp/google"
-      version = "~> 4.25"
-    }
+resource "google_storage_bucket" "storage_bucket" {
+  name          = join("-", [var.project_name, var.environment, "tfstate"])
+  force_destroy = false
+  location      = var.bucket_location
+  storage_class = "STANDARD"
+  versioning {
+    enabled = true
   }
-
-  # Uncomment this in the actualt deployment
-  # backend "gcs" {
-  #   bucket  = "<bucket-name>"
-  #   prefix  = "terraform/state"
-  # }
-
-  required_version = ">= 1.3.0"
-}
-
-provider "google" {
-  project = var.project_name
-  region  = var.region
-  zone    = var.zone
+  labels = {
+    "env" = var.environment
+  }
 }

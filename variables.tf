@@ -362,3 +362,18 @@ variable "node_memory_alert_renotify_interval" {
   description = "Node memory alert renotify interval"
   type        = string
 }
+
+variable "filestore_tier" {
+  description = "Filestore tier"
+  type        = string
+}
+
+variable "filestore_capacity_gb" {
+  description = "Filestore capacity in GB"
+  type        = number
+}
+
+variable "filestore_location" {
+  description = "Filestore location"
+  type        = string
+}

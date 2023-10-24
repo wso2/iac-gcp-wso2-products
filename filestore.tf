@@ -1,5 +1,3 @@
-# -------------------------------------------------------------------------------------
-#
 # Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com). All Rights Reserved.
 #
 # This software is the property of WSO2 LLC. and its suppliers, if any.
@@ -9,25 +7,16 @@
 #
 # --------------------------------------------------------------------------------------
 
-terraform {
-  required_providers {
-    google = {
-      source  = "hashicorp/google"
-      version = "~> 4.25"
-    }
+resource "google_filestore_instance" "persistent_storage" {
+  name     = join("-", [var.project_name, var.environment, "filestore"])
+  tier     = var.filestore_tier
+  location = var.filestore_location
+  networks {
+    network = module.vpc_network.vpc_id
+    modes   = ["MODE_IPV4"]
   }
-
-  # Uncomment this in the actualt deployment
-  # backend "gcs" {
-  #   bucket  = "<bucket-name>"
-  #   prefix  = "terraform/state"
-  # }
-
-  required_version = ">= 1.3.0"
-}
-
-provider "google" {
-  project = var.project_name
-  region  = var.region
-  zone    = var.zone
+  file_shares {
+    name        = "wso2am"
+    capacity_gb = var.filestore_capacity_gb
+  }
 }

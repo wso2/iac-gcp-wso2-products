@@ -9,25 +9,17 @@
 #
 # --------------------------------------------------------------------------------------
 
-terraform {
-  required_providers {
-    google = {
-      source  = "hashicorp/google"
-      version = "~> 4.25"
-    }
-  }
-
-  # Uncomment this in the actualt deployment
-  # backend "gcs" {
-  #   bucket  = "<bucket-name>"
-  #   prefix  = "terraform/state"
-  # }
-
-  required_version = ">= 1.3.0"
+variable "project_name" {
+  description = "The name of the project"
+  type        = string
 }
 
-provider "google" {
-  project = var.project_name
-  region  = var.region
-  zone    = var.zone
+variable "environment" {
+  description = "Deployment environment. This will be used for resource naming."
+  type        = string
+}
+
+variable "bucket_location" {
+  description = "The location of the bucket. Object data for objects in the bucket resides in physical storage within this region."
+  type        = string
 }

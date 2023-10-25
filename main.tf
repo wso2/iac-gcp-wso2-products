@@ -10,21 +10,21 @@
 # --------------------------------------------------------------------------------------
 
 module "project_svc" {
-  source = "./modules/Project-Service"
+  source = "./new-modules/Project-Service"
 
   project_id       = var.project_name
   project_services = var.project_services
 }
 
 module "vpc_network" {
-  source = "./modules/VPC"
+  source = "./new-modules/VPC"
 
   project_name = var.project_name
   vpc_name     = var.vpc_name
 }
 
 module "cloud-nat" {
-  source = "./modules/Cloud-NAT"
+  source = "./new-modules/Cloud-NAT"
 
   project_name = var.project_name
   region       = var.region

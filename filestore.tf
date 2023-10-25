@@ -12,7 +12,7 @@ resource "google_filestore_instance" "persistent_storage" {
   tier     = var.filestore_tier
   location = var.filestore_location
   networks {
-    network = module.vpc_network.vpc_id
+    network = module.vpc_network.vpc_name
     modes   = ["MODE_IPV4"]
   }
   file_shares {

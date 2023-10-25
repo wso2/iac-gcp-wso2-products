@@ -10,7 +10,7 @@
 # --------------------------------------------------------------------------------------
 
 module "gke-cluster" {
-  source = "./modules/Google-Kubernetes-Engine"
+  source = "./new-modules/Google-Kubernetes-Engine"
 
   project_name                          = var.project_name
   vpc_id                                = module.vpc_network.vpc_id

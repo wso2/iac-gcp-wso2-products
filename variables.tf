@@ -128,6 +128,12 @@ variable "labels" {
 }
 
 # https://registry.terraform.io/providers/hashicorp/google/4.80.0/docs/resources/sql_database_instance#database_version
+variable "db_enable" {
+  default     = true
+  description = "Set to true to enable the creation of a MySQL database."
+  type        = bool
+}
+
 variable "database_version" {
   default     = "MYSQL_8_0"
   description = "Database version"
@@ -235,9 +241,36 @@ variable "bastion_vm_boot_disk_image" {
   default     = "ubuntu-2204-lts"
 }
 
-variable "bastion_startup_script" {
-  description = "Bastion VM startup script"
+variable "bastion_metadata_startup_script" {
+  description = "Startup script of the bastion VM"
   type        = string
+  default     = <<-EOF
+    #!/bin/bash
+    sudo apt update
+    sudo apt-get update
+    # Install Helm
+    curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+    chmod 700 get_helm.sh
+    ./get_helm.sh
+    # Install kubectl
+    echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+    curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
+    sudo apt update
+    sudo apt-get install google-cloud-sdk-gke-gcloud-auth-plugin kubectl
+    export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+    # Install Kustomize
+    sudo snap install kustomize
+    # Install Kapp
+    wget -O- https://carvel.dev/install.sh > install.sh
+    sudo bash install.sh
+    # Install yq and jq
+    sudo snap install yq
+    sudo apt-get install jq
+    # Intsall Unzip
+    sudo apt install unzip
+    # Install mysql client
+    sudo apt install mysql-client-8.0 -y
+    EOF
 }
 
 variable "alert_email_address" {
@@ -375,5 +408,10 @@ variable "filestore_capacity_gb" {
 
 variable "filestore_location" {
   description = "Filestore location"
+  type        = string
+}
+
+variable "filestore_name" {
+  description = "File share name"
   type        = string
 }

@@ -10,8 +10,8 @@
 # --------------------------------------------------------------------------------------
 
 module "sql_instance" {
-  source = "./new-modules/SQL-Instance"
-
+  # count                  = var.db_enable ? 1 : 0
+  source                 = "./new-modules/SQL-Instance"
   project_name           = var.project_name
   region                 = var.region
   environment            = var.environment

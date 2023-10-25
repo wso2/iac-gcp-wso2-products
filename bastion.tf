@@ -10,7 +10,7 @@
 # --------------------------------------------------------------------------------------
 
 module "bastion_instance" {
-  source = "./modules/Bastion-VM"
+  source = "./new-modules/Bastion-VM"
 
   project_name            = var.project_name
   zone                    = var.zone
@@ -20,5 +20,5 @@ module "bastion_instance" {
   bastion_ip_cidr_range   = var.bastion_ip_cidr_range
   bastion_vm_machine_type = var.bastion_vm_machine_type
   boot_disk_image         = var.bastion_vm_boot_disk_image
-  startup_script          = var.bastion_startup_script
+  metadata_startup_script = var.bastion_metadata_startup_script
 }

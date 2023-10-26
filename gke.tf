@@ -30,5 +30,6 @@ module "gke-cluster" {
   node_pool_max_node_count              = var.node_pool_max_node_count
   node_pool_min_node_count              = var.node_pool_min_node_count
   labels                                = var.labels
+  deletion_protection                   = var.cluster_deletion_protection
 }
 

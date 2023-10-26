@@ -9,14 +9,51 @@
 #
 # --------------------------------------------------------------------------------------
 
-module "bastion_instance" {
+module "carbondb-1-filestore" {
   source = "./new-modules/Filestore"
 
   project_name          = var.project_name
   environment           = var.environment
-  vpc_name              = module.vpc_network.vpc_id
-  filestore_name        = var.filestore_name
+  vpc_name              = module.vpc_network.vpc_name
+  filestore_name        = var.carbon_db_1_filestore_name
   filestore_location    = var.filestore_location
   filestore_capacity_gb = var.filestore_capacity_gb
   filestore_tier        = var.filestore_tier
 }
+
+module "solr-1-filestore" {
+  source = "./new-modules/Filestore"
+
+  project_name          = var.project_name
+  environment           = var.environment
+  vpc_name              = module.vpc_network.vpc_name
+  filestore_name        = var.solr_1_filestore_name
+  filestore_location    = var.filestore_location
+  filestore_capacity_gb = var.filestore_capacity_gb
+  filestore_tier        = var.filestore_tier
+}
+
+module "carbondb-2-filestore" {
+  source = "./new-modules/Filestore"
+
+  project_name          = var.project_name
+  environment           = var.environment
+  vpc_name              = module.vpc_network.vpc_name
+  filestore_name        = var.carbon_db_2_filestore_name
+  filestore_location    = var.filestore_location
+  filestore_capacity_gb = var.filestore_capacity_gb
+  filestore_tier        = var.filestore_tier
+}
+
+module "solr-2-filestore" {
+  source = "./new-modules/Filestore"
+
+  project_name          = var.project_name
+  environment           = var.environment
+  vpc_name              = module.vpc_network.vpc_name
+  filestore_name        = var.solr_2_filestore_name
+  filestore_location    = var.filestore_location
+  filestore_capacity_gb = var.filestore_capacity_gb
+  filestore_tier        = var.filestore_tier
+}
+

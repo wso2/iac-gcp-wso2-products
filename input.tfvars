@@ -41,18 +41,19 @@ cluster_location                      = "us-central1"
 cluster_ip_cidr_range                 = "10.128.10.0/24"
 cluster_secondary_pods_cidr_range     = "10.128.11.0/24"
 cluster_secondary_services_cidr_range = "10.128.12.0/24"
+cluster_deletion_protection           = false
 master_kubernetes_version             = "1.26.9-gke.1437000"
 default_max_pods_per_node             = 25
 master_cluster_ipv4_cidr              = "10.128.1.0/28"
 master_authorized_networks_cidr       = "10.128.5.0/24"
 
 node_pool_location   = "us-central1"
-node_pool_node_count = 1
+node_pool_node_count = 2
 node_pool_zone_locations = [
   "us-central1-a",
   "us-central1-b",
 ]
-node_pool_machine_type   = "e2-medium"
+node_pool_machine_type   = "e2-standard-4"
 node_pool_max_node_count = 2
 node_pool_min_node_count = 1
 labels = {
@@ -114,6 +115,10 @@ node_memory_alert_duration          = "60s"
 node_memory_alert_threshold_value   = 0.75
 node_memory_alert_renotify_interval = "86400s"
 
-filestore_tier        = "STANDARD"
-filestore_capacity_gb = 2048
+# File Store
+filestore_tier        = "BASIC_HDD"
+filestore_capacity_gb = 1024
 filestore_location    = "us-central1-b"
+
+# Secrets
+secret_data = "this_is_the_secret"

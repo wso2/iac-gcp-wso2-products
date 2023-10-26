@@ -22,6 +22,7 @@ resource "google_container_cluster" "cluster" {
   project            = var.project_name
   description        = join("", ["GKE cluster for ", var.project_name, " located in ", var.cluster_location, " ENV: ", var.environment])
   min_master_version = var.master_kubernetes_version
+  deletion_protection = var.deletion_protection
 
   # Regional cluster
   location                  = var.cluster_location

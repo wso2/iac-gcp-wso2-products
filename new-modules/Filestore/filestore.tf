@@ -8,11 +8,11 @@
 # --------------------------------------------------------------------------------------
 
 resource "google_filestore_instance" "persistent_storage" {
-  name     = join("-", [var.project_name, var.environment, "filestore"])
+  name     = join("-", [var.project_name, var.environment, var.filestore_name, "filestore"])
   tier     = var.filestore_tier
   location = var.filestore_location
   networks {
-    network = module.vpc_network.vpc_name
+    network = var.vpc_name
     modes   = ["MODE_IPV4"]
   }
   file_shares {

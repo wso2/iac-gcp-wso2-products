@@ -101,3 +101,8 @@ variable "metadata" {
   type        = string
   default     = "INCLUDE_ALL_METADATA"
 }
+variable "deletion_protection" {
+  default     = true
+  description = "Deletion protection. If false, GKE cluster will be deleted with terraform destroy"
+  type        = bool
+}

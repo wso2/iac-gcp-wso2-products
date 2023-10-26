@@ -71,6 +71,11 @@ variable "cluster_secondary_services_cidr_range" {
   description = "Cluster secondary services CIDR range"
   type        = string
 }
+variable "cluster_deletion_protection" {
+  default     = true
+  description = "Deletion protection. If false, GKE cluster will be deleted with terraform destroy"
+  type        = bool
+}
 
 variable "master_kubernetes_version" {
   description = "Kubernetes version of the GKE cluster"
@@ -270,6 +275,10 @@ variable "bastion_metadata_startup_script" {
     sudo apt install unzip
     # Install mysql client
     sudo apt install mysql-client-8.0 -y
+    # Mount File Store
+    # sudo apt-get install nfs-common
+    # sudo mkdir -p /mnt/wso2am
+    # sudo mount -o rw,vers=3 10.194.240.250:wso2am /mnt/wso2am
     EOF
 }
 
@@ -411,7 +420,63 @@ variable "filestore_location" {
   type        = string
 }
 
-variable "filestore_name" {
+variable "carbon_db_1_filestore_name" {
+  default     = "carbondb1"
   description = "File share name"
   type        = string
 }
+
+variable "solr_1_filestore_name" {
+  default     = "solr1"
+  description = "File share name"
+  type        = string
+}
+
+variable "carbon_db_2_filestore_name" {
+  default     = "carbondb2"
+  description = "File share name"
+  type        = string
+}
+
+variable "solr_2_filestore_name" {
+  default     = "solr2"
+  description = "File share name"
+  type        = string
+}
+
+variable "secret_id" {
+  description = "The ID of the secret in Google Secret Manager."
+  type        = string
+  default     = "wso2am"
+}
+
+variable "secret_annotations" {
+  description = "Annotations for the secret in Google Secret Manager."
+  type        = map(string)
+  default     = {}
+}
+
+variable "secret_replication_mode" {
+  description = "Replication mode for the secret in Google Secret Manager."
+  type        = string
+  default     = "auto"
+}
+
+variable "is_secret_data_base64" {
+  description = "Flag indicating whether secret data is base64 encoded or not."
+  type        = bool
+  default     = false
+}
+
+variable "deletion_policy" {
+  description = "The deletion policy for the secret."
+  type        = string
+  default     = "DELETE"
+}
+
+variable "secret_data" {
+  description = "The secret data to be stored."
+  type        = string
+}
+
+

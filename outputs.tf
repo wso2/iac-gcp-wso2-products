@@ -10,21 +10,49 @@
 # --------------------------------------------------------------------------------------
 
 output "bastion_instance" {
-  value      = module.bastion_instance.bastion_instance_id
-  depends_on = [module.bastion_instance]
+  description = "ID of the bastion instance."
+  value       = module.bastion_instance.bastion_instance_id
+  depends_on  = [module.bastion_instance]
 }
 
 output "database_internal_ip" {
-  value      = module.sql_instance.database_internal_ip
-  depends_on = [module.sql_instance]
+  description = "Internal IP address of the database instance."
+  value       = length(module.sql_instance) > 0 ? module.sql_instance[0].database_internal_ip : null
+  depends_on  = [module.sql_instance]
 }
 
 output "database_connection_name" {
-  value      = module.sql_instance.database_connection_name
-  depends_on = [module.sql_instance]
+  description = "Connection name of the database instance."
+  value       = length(module.sql_instance) > 0 ? module.sql_instance[0].database_connection_name : null
+  depends_on  = [module.sql_instance]
 }
 
 output "database_default_user" {
-  value      = module.sql_instance.database_default_user
-  depends_on = [module.sql_instance]
+  description = "Default user of the database instance."
+  value       = length(module.sql_instance) > 0 ? module.sql_instance[0].database_default_user : null
+  depends_on  = [module.sql_instance]
+}
+
+output "filestore_location" {
+  value       = length(module.fileshare) > 0 ? module.fileshare[0].location : null
+  depends_on  = [module.fileshare]
+  description = "Location of the filestore."
+}
+
+output "filestore_location_ip" {
+  value       = length(module.fileshare) > 0 ? module.fileshare[0].ip_address : null
+  depends_on  = [module.fileshare]
+  description = "IP address of the filestore."
+}
+
+output "fileshare_name" {
+  value       = length(module.fileshare) > 0 ? module.fileshare[0].fileshare_name : null
+  depends_on  = [module.fileshare]
+  description = "Fileshare name"
+}
+
+output "filestore_name" {
+  value       = length(module.fileshare) > 0 ? module.fileshare[0].filestore_name : null
+  depends_on  = [module.fileshare]
+  description = "Filestore name"
 }

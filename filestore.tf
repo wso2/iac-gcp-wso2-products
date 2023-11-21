@@ -9,24 +9,14 @@
 #
 # --------------------------------------------------------------------------------------
 
-variable "project_name" {
-  description = "The project name of the DNS Managed Zone"
-  type        = string
-}
-variable "dns_zone_name" {
-  description = "The Managed DNS Zone name"
-  type        = string
-}
-variable "dns_name" {
-  description = "The DNS domain name of the Private DNS Zone"
-  type        = string
-}
-variable "dnssec_state" {
-  description = "The state of DNSSEC"
-  type        = string
-  default     = "off"
-}
-variable "labels" {
-  description = "The labels to add to the DNS Managed Zone"
-  type        = map(string)
+module "fileshare" {
+  source                = "git::https://github.com/wso2/gcp-terraform-modules.git//modules/gcp/Filestore"
+  count                 = var.enable_filestore ? 1 : 0
+  project_name          = var.project_name
+  environment           = var.environment
+  vpc_name              = module.vpc_network.vpc_name
+  filestore_name        = var.filestore_name
+  filestore_location    = var.filestore_location
+  filestore_capacity_gb = var.filestore_capacity_gb
+  filestore_tier        = var.filestore_tier
 }

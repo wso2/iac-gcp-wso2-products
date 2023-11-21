@@ -9,9 +9,8 @@
 #
 # --------------------------------------------------------------------------------------
 
-module "gke-cluster" {
-  source = "./new-modules/Google-Kubernetes-Engine"
-
+module "gke_cluster" {
+  source                                = "git::https://github.com/wso2/gcp-terraform-modules.git//modules/gcp/Google-Kubernetes-Engine"
   project_name                          = var.project_name
   vpc_id                                = module.vpc_network.vpc_id
   environment                           = var.environment
@@ -30,6 +29,6 @@ module "gke-cluster" {
   node_pool_max_node_count              = var.node_pool_max_node_count
   node_pool_min_node_count              = var.node_pool_min_node_count
   labels                                = var.labels
-  deletion_protection                   = var.cluster_deletion_protection
+  roles                                 = var.roles
 }
 

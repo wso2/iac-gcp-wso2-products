@@ -10,8 +10,8 @@
 # --------------------------------------------------------------------------------------
 
 module "sql_instance" {
-  # count                  = var.db_enable ? 1 : 0
-  source                 = "./new-modules/SQL-Instance"
+  source                 = "git::https://github.com/wso2/gcp-terraform-modules.git//modules/gcp/SQL-Instance"
+  count                  = var.enable_database ? 1 : 0
   project_name           = var.project_name
   region                 = var.region
   environment            = var.environment
@@ -24,7 +24,6 @@ module "sql_instance" {
   disk_size              = var.db_disk_size
   disk_type              = var.db_disk_type
   db_ipv4_enabled        = var.db_ipv4_enabled
-  db_cidr_range          = var.db_cidr_range
   require_ssl            = var.db_require_ssl
   query_insights_enabled = var.db_query_insights_enabled
   db_username            = var.db_username

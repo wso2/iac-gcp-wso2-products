@@ -13,15 +13,9 @@ terraform {
   required_providers {
     google = {
       source  = "hashicorp/google"
-      version = "~> 5.3.0"
+      version = "~> 4.51.0"
     }
   }
-
-  # Uncomment this in the actualt deployment
-  # backend "gcs" {
-  #   bucket  = "<bucket-name>"
-  #   prefix  = "terraform/state"
-  # }
 
   required_version = ">= 1.3.0"
 }

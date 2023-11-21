@@ -9,6 +9,15 @@
 #
 # --------------------------------------------------------------------------------------
 
+
+
+# Deployment variables
+variable "environment" {
+  default     = "Dev"
+  description = "Deployment environment. This will be used for resource naming."
+  type        = string
+}
+
 variable "project_name" {
   description = "GCP project name"
   type        = string
@@ -29,36 +38,14 @@ variable "zone" {
   type        = string
 }
 
-variable "environment" {
-  default     = "dev"
-  description = "Deployment environment. This will be used for resource naming."
-  type        = string
-}
-
 # VPC related variables
-
-variable "vpc_name" {
-  description = "VPC name"
-  type        = string
-}
-
-variable "vpc_subnetwork_name" {
-  description = "VPC subnetwork name"
-  type        = string
-}
-
-variable "ip_cidr_range" {
-  description = "IP CIDR range"
+variable "cluster_ip_cidr_range" {
+  description = "Cluster IP CIDR range"
   type        = string
 }
 
 variable "cluster_location" {
   description = "Cluster location"
-  type        = string
-}
-
-variable "cluster_ip_cidr_range" {
-  description = "Cluster IP CIDR range"
   type        = string
 }
 
@@ -71,20 +58,20 @@ variable "cluster_secondary_services_cidr_range" {
   description = "Cluster secondary services CIDR range"
   type        = string
 }
-variable "cluster_deletion_protection" {
-  default     = true
-  description = "Deletion protection. If false, GKE cluster will be deleted with terraform destroy"
-  type        = bool
-}
-
-variable "master_kubernetes_version" {
-  description = "Kubernetes version of the GKE cluster"
-  type        = string
-}
 
 variable "default_max_pods_per_node" {
   description = "Maximum number of pods per node"
   type        = number
+}
+
+variable "ip_cidr_range" {
+  description = "IP CIDR range"
+  type        = string
+}
+
+variable "master_authorized_networks_cidr" {
+  description = "IP CIDR range for the master authorized networks"
+  type        = string
 }
 
 variable "master_cluster_ipv4_cidr" {
@@ -92,8 +79,8 @@ variable "master_cluster_ipv4_cidr" {
   type        = string
 }
 
-variable "master_authorized_networks_cidr" {
-  description = "IP CIDR range for the master authorized networks"
+variable "master_kubernetes_version" {
+  description = "Kubernetes version of the GKE cluster"
   type        = string
 }
 
@@ -112,6 +99,17 @@ variable "node_pool_zone_locations" {
   type        = list(string)
 }
 
+variable "vpc_name" {
+  description = "VPC name"
+  type        = string
+}
+
+variable "vpc_subnetwork_name" {
+  description = "VPC subnetwork name"
+  type        = string
+}
+
+# Additional Node Pool variables
 variable "node_pool_machine_type" {
   description = "Node pool machine type"
   type        = string
@@ -132,10 +130,10 @@ variable "labels" {
   type        = map(string)
 }
 
-# https://registry.terraform.io/providers/hashicorp/google/4.80.0/docs/resources/sql_database_instance#database_version
-variable "db_enable" {
+# Database variables
+variable "enable_database" {
   default     = true
-  description = "Set to true to enable the creation of a MySQL database."
+  description = "Set true to enable the creation of a MySQL database."
   type        = bool
 }
 
@@ -158,7 +156,7 @@ variable "database_tier" {
 
 variable "db_common_labels" {
   default = {
-    "user" = "apim"
+    "user" = "wso2"
   }
   description = "Common labels"
   type        = map(string)
@@ -230,6 +228,7 @@ variable "db_retained_backups" {
   type        = number
 }
 
+# Bastion variables
 variable "bastion_ip_cidr_range" {
   description = "Base IP CIDR range for the bastion subnet"
   type        = string
@@ -251,8 +250,6 @@ variable "bastion_metadata_startup_script" {
   type        = string
   default     = <<-EOF
     #!/bin/bash
-    sudo apt update
-    sudo apt-get update
     # Install Helm
     curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
     chmod 700 get_helm.sh
@@ -275,11 +272,7 @@ variable "bastion_metadata_startup_script" {
     sudo apt install unzip
     # Install mysql client
     sudo apt install mysql-client-8.0 -y
-    # Mount File Store
-    # sudo apt-get install nfs-common
-    # sudo mkdir -p /mnt/wso2am
-    # sudo mount -o rw,vers=3 10.194.240.250:wso2am /mnt/wso2am
-    EOF
+  EOF
 }
 
 variable "alert_email_address" {
@@ -292,7 +285,6 @@ variable "alert_channel_name" {
   type        = string
   default     = "primary"
 }
-
 
 # Alert policy variables
 # Container CPU alerts
@@ -311,11 +303,6 @@ variable "container_cpu_alert_threshold_value" {
   type        = number
 }
 
-variable "container_cpu_alert_renotify_interval" {
-  description = "Container CPU alert renotify interval"
-  type        = string
-}
-
 # Container memory alerts
 variable "container_memory_alert_name" {
   description = "Container memory alert name"
@@ -332,11 +319,6 @@ variable "container_memory_alert_threshold_value" {
   type        = number
 }
 
-variable "container_memory_alert_renotify_interval" {
-  description = "Container memory alert renotify interval"
-  type        = string
-}
-
 # Container restart alerts
 variable "container_restart_alert_name" {
   description = "Container restart alert name"
@@ -351,11 +333,6 @@ variable "container_restart_alert_duration" {
 variable "container_restart_alert_threshold_value" {
   description = "Container restart alert threshold value"
   type        = number
-}
-
-variable "container_restart_alert_renotify_interval" {
-  description = "Container restart alert renotify interval"
-  type        = string
 }
 
 variable "container_restart_alert_alignment_period" {
@@ -379,11 +356,6 @@ variable "node_cpu_alert_threshold_value" {
   type        = number
 }
 
-variable "node_cpu_alert_renotify_interval" {
-  description = "Node CPU alert renotify interval"
-  type        = string
-}
-
 # Node memory alerts
 variable "node_memory_alert_name" {
   description = "Node memory alert name"
@@ -400,8 +372,15 @@ variable "node_memory_alert_threshold_value" {
   type        = number
 }
 
-variable "node_memory_alert_renotify_interval" {
-  description = "Node memory alert renotify interval"
+# Filestore variables
+variable "enable_filestore" {
+  description = "Deploy a filestores for persistent storage"
+  type        = bool
+  default     = true
+}
+
+variable "filestore_name" {
+  description = "File share name"
   type        = string
 }
 
@@ -420,63 +399,25 @@ variable "filestore_location" {
   type        = string
 }
 
-variable "carbon_db_1_filestore_name" {
-  default     = "carbondb1"
-  description = "File share name"
-  type        = string
-}
-
-variable "solr_1_filestore_name" {
-  default     = "solr1"
-  description = "File share name"
-  type        = string
-}
-
-variable "carbon_db_2_filestore_name" {
-  default     = "carbondb2"
-  description = "File share name"
-  type        = string
-}
-
-variable "solr_2_filestore_name" {
-  default     = "solr2"
-  description = "File share name"
-  type        = string
-}
-
-variable "secret_id" {
-  description = "The ID of the secret in Google Secret Manager."
-  type        = string
-  default     = "wso2am"
-}
-
-variable "secret_annotations" {
-  description = "Annotations for the secret in Google Secret Manager."
-  type        = map(string)
-  default     = {}
-}
-
-variable "secret_replication_mode" {
-  description = "Replication mode for the secret in Google Secret Manager."
-  type        = string
-  default     = "auto"
-}
-
-variable "is_secret_data_base64" {
-  description = "Flag indicating whether secret data is base64 encoded or not."
+variable "auto_replication_enabled" {
+  default     = true
+  description = "Enable automatic replication for the secret in regions"
   type        = bool
-  default     = false
 }
 
-variable "deletion_policy" {
-  description = "The deletion policy for the secret."
-  type        = string
-  default     = "DELETE"
+variable "enable_secret" {
+  description = "Enable secrets to store keystore password"
+  type        = bool
+  default     = true
 }
 
-variable "secret_data" {
-  description = "The secret data to be stored."
-  type        = string
+variable "secrets" {
+  type        = list(map(string))
+  description = "The list of the secrets"
+  default     = []
 }
-
-
+variable "roles" {
+  description = "List of roles to assign"
+  type        = list(string)
+  default     = ["roles/monitoring.metricWriter", "roles/logging.logWriter"]
+}

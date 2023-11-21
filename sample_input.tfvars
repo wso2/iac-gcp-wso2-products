@@ -9,10 +9,9 @@
 #
 # --------------------------------------------------------------------------------------
 
-project_name = "apim-mi-product-rnd"
-region       = "us-central1"
-zone         = "us-central1-a"
-environment  = "dev"
+region      = "us-central1"
+zone        = "us-central1-a"
+environment = "dev"
 project_services = [
   "compute.googleapis.com",
   "container.googleapis.com",
@@ -33,15 +32,14 @@ project_services = [
   "storage-api.googleapis.com",
 ]
 
-vpc_name            = "apim-vpc"
-vpc_subnetwork_name = "apim-subnet"
+vpc_name            = "vpc"
+vpc_subnetwork_name = "vpc-subnet"
 ip_cidr_range       = "10.128.0.0/16"
 
 cluster_location                      = "us-central1"
 cluster_ip_cidr_range                 = "10.128.10.0/24"
 cluster_secondary_pods_cidr_range     = "10.128.11.0/24"
 cluster_secondary_services_cidr_range = "10.128.12.0/24"
-cluster_deletion_protection           = false
 master_kubernetes_version             = "1.26.9-gke.1437000"
 default_max_pods_per_node             = 25
 master_cluster_ipv4_cidr              = "10.128.1.0/28"
@@ -54,11 +52,9 @@ node_pool_zone_locations = [
   "us-central1-b",
 ]
 node_pool_machine_type   = "e2-standard-4"
-node_pool_max_node_count = 2
+node_pool_max_node_count = 3
 node_pool_min_node_count = 1
-labels = {
-  "user" = "pasant"
-}
+labels                   = {}
 
 database_tier             = "db-n1-standard-4"
 db_availability_type      = "REGIONAL"
@@ -81,44 +77,43 @@ bastion_ip_cidr_range      = "10.128.5.0/24"
 bastion_vm_machine_type    = "e2-small"
 bastion_vm_boot_disk_image = "ubuntu-2204-lts"
 
-alert_email_address = "pasant@wso2.com"
-
 # Alerting policies
 # Container CPU
-container_cpu_alert_name              = "cpu-usage"
-container_cpu_alert_duration          = "60s"
-container_cpu_alert_threshold_value   = 0.75
-container_cpu_alert_renotify_interval = "86400s"
+container_cpu_alert_name            = "cpu-usage"
+container_cpu_alert_duration        = "60s"
+container_cpu_alert_threshold_value = 0.75
 
 # Container Memory
-container_memory_alert_name              = "memory-usage"
-container_memory_alert_duration          = "60s"
-container_memory_alert_threshold_value   = 0.75
-container_memory_alert_renotify_interval = "86400s"
+container_memory_alert_name            = "memory-usage"
+container_memory_alert_duration        = "60s"
+container_memory_alert_threshold_value = 0.75
 
 # Container restart
-container_restart_alert_name              = "restart-count"
-container_restart_alert_duration          = "60s"
-container_restart_alert_threshold_value   = 0.75
-container_restart_alert_renotify_interval = "86400s"
-container_restart_alert_alignment_period  = "120s"
+container_restart_alert_name             = "restart-count"
+container_restart_alert_duration         = "60s"
+container_restart_alert_threshold_value  = 0.75
+container_restart_alert_alignment_period = "120s"
 
 # Node CPU
-node_cpu_alert_name              = "cpu-usage"
-node_cpu_alert_duration          = "60s"
-node_cpu_alert_threshold_value   = 0.75
-node_cpu_alert_renotify_interval = "86400s"
+node_cpu_alert_name            = "cpu-usage"
+node_cpu_alert_duration        = "60s"
+node_cpu_alert_threshold_value = 0.75
 
 # Node memory
-node_memory_alert_name              = "memory-usage"
-node_memory_alert_duration          = "60s"
-node_memory_alert_threshold_value   = 0.75
-node_memory_alert_renotify_interval = "86400s"
+node_memory_alert_name            = "memory-usage"
+node_memory_alert_duration        = "60s"
+node_memory_alert_threshold_value = 0.75
 
 # File Store
+filestore_name        = "store"
 filestore_tier        = "BASIC_HDD"
 filestore_capacity_gb = 1024
 filestore_location    = "us-central1-b"
 
 # Secrets
-secret_data = "this_is_the_secret"
+secrets = [
+  {
+    name : "secret"
+    secret_data : "wso2carbon"
+  }
+]

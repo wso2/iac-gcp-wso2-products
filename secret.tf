@@ -10,14 +10,9 @@
 # --------------------------------------------------------------------------------------
 
 module "secret" {
-  source = "./new-modules/Secret"
-
-  project_id            = var.project_name
-  secret_id             = var.secret_id
-  labels                = var.labels
-  annotations           = var.secret_annotations
-  replication_mode      = var.secret_replication_mode
-  is_secret_data_base64 = var.is_secret_data_base64
-  deletion_policy       = var.deletion_policy
-  secret_data           = var.secret_data
+  source       = "git::https://github.com/wso2/gcp-terraform-modules.git//modules/gcp/Secret-Manager-Secrets"
+  count        = var.enable_secret ? 1 : 0
+  project_name = var.project_name
+  labels       = var.labels
+  secrets      = var.secrets
 }

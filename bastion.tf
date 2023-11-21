@@ -10,8 +10,7 @@
 # --------------------------------------------------------------------------------------
 
 module "bastion_instance" {
-  source = "./new-modules/Bastion-VM"
-
+  source                  = "git::https://github.com/wso2/gcp-terraform-modules.git//modules/gcp/Bastion-VM"
   project_name            = var.project_name
   zone                    = var.zone
   location                = var.region

@@ -1,6 +1,6 @@
 # -------------------------------------------------------------------------------------
 #
-# Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com). All Rights Reserved.
+# Copyright (c) 2024, WSO2 LLC. (http://www.wso2.com). All Rights Reserved.
 #
 # This software is the property of WSO2 LLC. and its suppliers, if any.
 # Dissemination of any information or reproduction of any material contained
@@ -10,7 +10,7 @@
 # --------------------------------------------------------------------------------------
 
 module "bastion_instance" {
-  source                  = "git::https://github.com/wso2/gcp-terraform-modules.git//modules/gcp/Bastion-VM"
+  source                  = "git::https://github.com/wso2/gcp-terraform-modules.git//modules/gcp/Bastion-VM?ref=v1.00.00"
   project_name            = var.project_name
   zone                    = var.zone
   location                = var.region

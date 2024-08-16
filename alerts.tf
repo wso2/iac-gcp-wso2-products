@@ -1,6 +1,6 @@
 # -------------------------------------------------------------------------------------
 #
-# Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com). All Rights Reserved.
+# Copyright (c) 2024, WSO2 LLC. (http://www.wso2.com). All Rights Reserved.
 #
 # This software is the property of WSO2 LLC. and its suppliers, if any.
 # Dissemination of any information or reproduction of any material contained
@@ -10,14 +10,14 @@
 # --------------------------------------------------------------------------------------
 
 module "email_channel_primary" {
-  source              = "git::https://github.com/wso2/gcp-terraform-modules.git//modules/gcp/Notification-Channel"
+  source              = "git::https://github.com/wso2/gcp-terraform-modules.git//modules/gcp/Notification-Channel?ref=v1.00.00"
   environment         = var.environment
   channel_name        = var.alert_channel_name
   alert_email_address = var.alert_email_address
 }
 
 module "alert_policy_container_cpu" {
-  source                      = "git::https://github.com/wso2/gcp-terraform-modules.git//modules/gcp/Alert-Policy"
+  source                      = "git::https://github.com/wso2/gcp-terraform-modules.git//modules/gcp/Alert-Policy?ref=v1.00.00"
   environment                 = var.environment
   alert_resource_type         = local.alert_resource_type_container
   alert_name                  = var.container_cpu_alert_name
@@ -29,7 +29,7 @@ module "alert_policy_container_cpu" {
 }
 
 module "alert_policy_container_memory" {
-  source                      = "git::https://github.com/wso2/gcp-terraform-modules.git//modules/gcp/Alert-Policy"
+  source                      = "git::https://github.com/wso2/gcp-terraform-modules.git//modules/gcp/Alert-Policy?ref=v1.00.00"
   environment                 = var.environment
   alert_resource_type         = local.alert_resource_type_container
   alert_name                  = var.container_memory_alert_name
@@ -41,7 +41,7 @@ module "alert_policy_container_memory" {
 }
 
 module "alert_policy_container_restart_count" {
-  source                             = "git::https://github.com/wso2/gcp-terraform-modules.git//modules/gcp/Alert-Policy"
+  source                             = "git::https://github.com/wso2/gcp-terraform-modules.git//modules/gcp/Alert-Policy?ref=v1.00.00"
   environment                        = var.environment
   alert_resource_type                = local.alert_resource_type_container
   alert_name                         = var.container_restart_alert_name
@@ -56,7 +56,7 @@ module "alert_policy_container_restart_count" {
 
 
 module "alert_policy_node_cpu" {
-  source                      = "git::https://github.com/wso2/gcp-terraform-modules.git//modules/gcp/Alert-Policy"
+  source                      = "git::https://github.com/wso2/gcp-terraform-modules.git//modules/gcp/Alert-Policy?ref=v1.00.00"
   environment                 = var.environment
   alert_resource_type         = local.alert_resource_type_node
   alert_name                  = var.node_cpu_alert_name
@@ -68,7 +68,7 @@ module "alert_policy_node_cpu" {
 }
 
 module "alert_policy_node_memory" {
-  source                      = "git::https://github.com/wso2/gcp-terraform-modules.git//modules/gcp/Alert-Policy"
+  source                      = "git::https://github.com/wso2/gcp-terraform-modules.git//modules/gcp/Alert-Policy?ref=v1.00.00"
   environment                 = var.environment
   alert_resource_type         = local.alert_resource_type_node
   alert_name                  = var.node_memory_alert_name

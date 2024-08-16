@@ -1,6 +1,6 @@
 # -------------------------------------------------------------------------------------
 #
-# Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com). All Rights Reserved.
+# Copyright (c) 2024, WSO2 LLC. (http://www.wso2.com). All Rights Reserved.
 #
 # This software is the property of WSO2 LLC. and its suppliers, if any.
 # Dissemination of any information or reproduction of any material contained
@@ -10,19 +10,19 @@
 # --------------------------------------------------------------------------------------
 
 module "project_svc" {
-  source           = "git::https://github.com/wso2/gcp-terraform-modules.git//modules/gcp/Project-Service"
+  source           = "git::https://github.com/wso2/gcp-terraform-modules.git//modules/gcp/Project-Service?ref=v1.00.00"
   project_id       = var.project_name
   project_services = var.project_services
 }
 
 module "vpc_network" {
-  source       = "git::https://github.com/wso2/gcp-terraform-modules.git//modules/gcp/VPC"
+  source       = "git::https://github.com/wso2/gcp-terraform-modules.git//modules/gcp/VPC?ref=v1.00.00"
   project_name = var.project_name
   vpc_name     = var.vpc_name
 }
 
 module "cloud_nat" {
-  source       = "git::https://github.com/wso2/gcp-terraform-modules.git//modules/gcp/Cloud-NAT"
+  source       = "git::https://github.com/wso2/gcp-terraform-modules.git//modules/gcp/Cloud-NAT?ref=v1.00.00"
   project_name = var.project_name
   region       = var.region
   vpc_name     = module.vpc_network.vpc_id
